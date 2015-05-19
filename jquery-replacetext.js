@@ -2,7 +2,7 @@
   var textNode = function(node, search, replace, capturing) {
     var tokens = node.nodeValue.split(search);
     if (tokens.length < 2) return false;
-    for (var i = 0; i+capturing < tokens.length; i += capturing+1) {
+    for (var i = 0; i+capturing+1 < tokens.length; i += capturing+1) {
       $(node).before(document.createTextNode(tokens[i]));
       $(node).before(replace(tokens.slice(i+1, i+1+capturing)));
     }
@@ -14,7 +14,7 @@
    * Replace substrings with HTML.
    *
    * @param node A text node.
-   * @param search A RegExp object that must have at least one capturing subgroup.
+   * @param search A RegExp object.
    * @param replace A function that generates the replacement jQuery content.
    */
   $.fn.replaceText = function(search, replace) {
