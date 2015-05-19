@@ -32,15 +32,22 @@
    * Replace substrings with HTML.
    *
    * @param search A string or regular expression.
-   * @param replace A function that generates the replacement jQuery content.
+   * @param replace A string, or a DOM node, or a jQuery object,
+   *                or an array of any of the above,
+   *                or a function that returns any of the above.
+   *                The function will receive the group captures as an argument.
+   * @return the original jQuery object.
    */
   $.fn.replaceText = function(search, replace) {
     // This will be /undefined|/ for strings, with 0 groups.
     var capturing = RegExp(search.source + '|').exec('').length - 1;
+    // Convert a non-function into a function that returns the value.
+    var rep = (typeof replace === 'function') ? replace : function() { return replace; };
+
     return this.each(function() {
       var remove = [];
       for (var node = this.firstChild; node; node = node.nextSibling) {
-        if (node.nodeType == document.TEXT_NODE && textNode(node, search, replace, capturing)) {
+        if (node.nodeType == document.TEXT_NODE && textNode(node, search, rep, capturing)) {
           remove.push(node);
         }
       }
