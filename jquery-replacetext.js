@@ -13,11 +13,11 @@
   /**
    * Replace substrings with HTML.
    *
-   * @param node A text node.
-   * @param search A RegExp object.
+   * @param search A string or regular expression.
    * @param replace A function that generates the replacement jQuery content.
    */
   $.fn.replaceText = function(search, replace) {
+    // This will be /undefined|/ for strings, with 0 groups.
     var capturing = RegExp(search.source + '|').exec('').length - 1;
     return this.each(function() {
       var remove = [];
