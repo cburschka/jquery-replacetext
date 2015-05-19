@@ -16,10 +16,9 @@
    * @param node A text node.
    * @param search A RegExp object that must have at least one capturing subgroup.
    * @param replace A function that generates the replacement jQuery content.
-   * @param groups (optional) The number of capturing subgroups in the RegExp.
    */
-  $.fn.replaceText = function(search, replace, capturing) {
-    capturing = capturing || 1;
+  $.fn.replaceText = function(search, replace) {
+    var capturing = RegExp(search.source + '|').exec('').length - 1;
     return this.each(function() {
       var remove = [];
       for (var node = this.firstChild; node; node = node.nextSibling) {
