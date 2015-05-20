@@ -12,16 +12,15 @@
   $.fn.replaceText = function(search, replace) {
     // This will be /undefined|/ for strings, with 0 groups.
     var capturing = RegExp(search.source + '|').exec('').length - 1;
-    // Convert a non-function into a function that returns the value.
+    // Convert a static replacement value into a function that returns it.
     var rep = (typeof replace === 'function') ? replace : function() { return replace; };
 
     return this.each(function() {
       var remove = [];
-      for (var node = this.firstChild; node; node = node.nextSibling) {
-        if (node.nodeType == document.TEXT_NODE && textNode(node, search, rep, capturing)) {
-          remove.push(node);
-        }
-      }
+      for (var node = this.firstChild; node; node = node.nextSibling)
+        if (node.nodeType == document.TEXT_NODE)
+          if (textNode(node, search, rep, capturing))
+            remove.push(node);
       $(remove).remove();
     });
   }
