@@ -1,3 +1,10 @@
+/*!
+ * jQuery replaceText
+ *
+ * Copyright 2015 Christoph Burschka <christoph@burschka.de>
+ * This program is distributed under the terms of the MIT license.
+ * Please see the LICENSE file for details.
+ */
 (function($){
   /**
    * Replace substrings with HTML.
