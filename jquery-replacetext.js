@@ -1,33 +1,4 @@
 (function($){
-  var textNode = function(node, search, replace, capturing) {
-    var tokens = node.nodeValue.split(search);
-    if (tokens.length < 2) return false;
-
-    // Render the matches and concatenate everything.
-    var output = [];
-    for (var i = 0; i+capturing+1 < tokens.length; i += capturing+1) {
-      var child = replace(tokens.slice(i+1, i+1+capturing)) || '';
-      output = output.concat(tokens[i], child);
-    }
-    output.push(tokens[tokens.length-1]);
-
-    // Combine runs of strings into text nodes.
-    var nodes = [];
-    var text = '';
-    for (var i in output) {
-      if (typeof output[i] === 'string') text += output[i];
-      else {
-        if (text) nodes.push(document.createTextNode(text));
-        nodes.push(output[i]);
-        text = '';
-      }
-    }
-    if (text) nodes.push(document.createTextNode(text));
-
-    // Prepend all nodes to the given node, which will be marked for removal.
-    return $(node).before(nodes);
-  };
-
   /**
    * Replace substrings with HTML.
    *
@@ -54,4 +25,44 @@
       $(remove).remove();
     });
   }
+
+  /**
+   * Helper function for processing a text node.
+   *
+   * The new content is inserted into the node's parent just before the node,
+   * leaving everything after it unchanged to preserve the sibling traversal.
+   *
+   * @param node The text node being processed.
+   * @param search The original search argument.
+   * @param replace The replacing function.
+   * @return true or false, depending on whether any matches were found.
+   */
+  var textNode = function(node, search, replace, capturing) {
+    var tokens = node.nodeValue.split(search);
+    if (tokens.length < 2) return false;
+
+    // Render the matches and concatenate everything.
+    var output = [];
+    for (var i = 0; i+capturing+1 < tokens.length; i += capturing+1) {
+      var child = replace(tokens.slice(i+1, i+1+capturing)) || '';
+      output = output.concat(tokens[i], child);
+    }
+    output.push(tokens[tokens.length-1]);
+
+    // Combine runs of strings into text nodes.
+    var nodes = [];
+    var text = '';
+    for (var i in output) {
+      if (typeof output[i] === 'string') text += output[i];
+      else {
+        if (text) nodes.push(document.createTextNode(text));
+        nodes.push(output[i]);
+        text = '';
+      }
+    }
+    if (text) nodes.push(document.createTextNode(text));
+
+    // Prepend all nodes to the given node, which will be marked for removal.
+    return $(node).before(nodes) && true;
+  };
 })(jQuery);
