@@ -62,7 +62,7 @@
       if (typeof output[i] === 'string') text += output[i];
       else {
         if (text) nodes.push(document.createTextNode(text));
-        nodes.push(output[i]);
+        nodes.push(output[i].clone());
         text = '';
       }
     }
