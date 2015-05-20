@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>jQuery replaceText</title>
+  <style>
+  div.code-block { margin:1em; background:#ff8; }
+  code { white-space: pre; }
+  section {
+    background:#ccf;
+    margin:1em;
+    padding:1em;
+    border-radius:1em;
+  }
+  h3 {
+    background:#88f;
+    padding:1em;
+  }
+  </style>
+  <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="jquery.replacetext.js"></script>
+  <script>
+  $(document).ready(function() {
+    $('#example1').click(function() {
+      $('.render-emoticons').replaceText(':)', $('<img src="img/smile.png" />'));  
+    });
+    $('#example1reset').click(function() {
+      $('.render-emoticons').text('Lorem ipson :) dolor sit amet. :)');
+    }).click();
+    $('#example2').click(function() {
+      $('.replacestring').replaceText(':(', ':)');
+    });
+    $('#example2reset').click(function() {
+      $('.render-emoticons').text('Lorem ipson :( dolor sit amet. :(');
+    }).click();
+    $('#example3').click(function() {
+      $('.urlclick').replaceText(
+        /\b((?:https?|s?ftp|mailto):\/\/[^\s"']+[\-=\w\/])/g,
+        function(url) { return $('<a></a>').attr('href', url).text(url); }
+      );
+    });
+    $('#example3reset').click(function() {
+      $('.urlclick').text('This is a plugin for https://jquery.com/.');
+    }).click();
+  });
+  </script>
+</head>
+<body>
+  <h1>jQuery replaceText</h1>
+
+  <p>This jQuery plugin searches the text-node children of all elements in a jQuery
+  object, and replaces matched substrings with new content. The new content can
+  either be text or DOM nodes.</p>
+
+  <a href="https://github.com/cburschka/jquery-replacetext">https://github.com/cburschka/jquery-replacetext</a>
+
+  <h2>Documentation</h2>
+
+  <section>
+  <h3>.replaceText( search, replace );</h3>
+
+  <h4>search</h4>
+
+  <p>Type: <strong>String</strong> or <strong>RegExp</strong></p>
+  <p>What to search for.</p>
+
+  <h4>replace</h4>
+
+  <p>Type: <strong>String</strong> or <strong>Element</strong> or <strong>Array</strong> or <strong>jQuery</strong></p>
+
+  <p>The content that will be inserted in place of the matched substrings. A <strong>String</strong>
+  value will be inserted in the text node; any other content will split the text node
+  and be inserted between the parts.</p>
+
+  <p>Note: HTML code in a <strong>String</strong> argument is not evaluated.</p>
+  </section>
+
+  <section>
+  <h3>.replaceText( search, function );</h3>
+
+  <h4>search</h4>
+
+  <p>Type: <strong>String</strong> or <strong>RegExp</strong></p>
+  <p>What to search for.</p>
+
+  <h4>function</h4>
+
+  <p>Type: <strong>Function</strong>( <strong>String</strong> match1, ... , <strong>String</strong> matchN ) =&gt;
+     (<strong>String</strong> or <strong>Element</strong> or <strong>Array</strong> or <strong>jQuery</strong>)</p>
+
+  <p>A function that returns the replacement value, which is interpreted in the same
+  way as a static replacement value.</p>
+
+  <p>If the search argument is a <strong>RegExp</strong> with parenthesized groups, then the
+  function will receive these groups as arguments.</p>
+
+  <p>Note: The full substring match is <em>not</em> included unless the entire regular
+  expression is parenthesized.</p>
+  </section>
+
+  <h2>Demonstration</h2>
+
+  <h3>Replace a string with an HTML element.</h3>
+  <div class="code-block">
+    <code>
+      $('.render-emoticons').replaceText(':)', $('&lt;img src="img/smile.png" /&gt;'));
+    </code>
+  </div>
+  
+  <button id="#example1">Run</button>
+  <button id="#example1reset">Reset</button>
+  <p class="render-emoticons"></p>
+  
+  <h3>Replace a string with a string.</h3>
+  <div class="code-block">
+    <code>
+      $('.replacestring').replaceText(':(', ':)');
+    </code>
+  </div>
+
+  <button id="#example2">Run</button>
+  <button id="#example2reset">Reset</button>
+  <p class="replacestring"></p>
+
+  <h3>Replace a string with a dynamically generated HTML element.</h3>
+  <div class="code-block">
+    <code>
+      $('.urlclick').replaceText(
+        /\b((?:https?|s?ftp|mailto):\/\/[^\s"']+[\-=\w\/])/g,
+        function(url) { return $('<a></a>').attr('href', url).text(url); }
+      );
+    </code>
+  </div>
+
+  <button id="#example3">Run</button>
+  <button id="#example3reset">Reset</button>
+  <p class="urlclick"></p>
+</body>
