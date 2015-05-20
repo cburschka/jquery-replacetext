@@ -1,4 +1,4 @@
-# jquery-replacetext
+# jQuery replaceText
 
 This jQuery plugin searches the text-node children of all elements in a jQuery
 object, and replaces matched substrings with new content. The new content can
