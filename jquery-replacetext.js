@@ -6,7 +6,7 @@
    * @param replace A string, or a DOM node, or a jQuery object,
    *                or an array of any of the above,
    *                or a function that returns any of the above.
-   *                The function will receive the group captures as an argument.
+   *                The function will receive the group captures as arguments.
    * @return the original jQuery object.
    */
   $.fn.replaceText = function(search, replace) {
@@ -44,7 +44,7 @@
     // Render the matches and concatenate everything.
     var output = [];
     for (var i = 0; i+capturing+1 < tokens.length; i += capturing+1) {
-      var child = replace(tokens.slice(i+1, i+1+capturing)) || '';
+      var child = replace.apply(this, tokens.slice(i+1, i+1+capturing)) || '';
       output = output.concat(tokens[i], child);
     }
     output.push(tokens[tokens.length-1]);
