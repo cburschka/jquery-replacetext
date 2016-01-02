@@ -41,6 +41,7 @@
    * @param node The text node being processed.
    * @param search The original search argument.
    * @param replace The replacing function.
+   * @param capturing The number of capturing groups of the search pattern.
    * @return true or false, depending on whether any matches were found.
    */
   var textNode = function(node, search, replace, capturing) {
