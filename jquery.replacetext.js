@@ -26,7 +26,7 @@
       var remove = [];
       for (var node = this.firstChild; node; node = node.nextSibling)
         if (node.nodeType == document.TEXT_NODE)
-          if (textNode(node, search, rep, capturing))
+          if (textNode(node, search, rep, capturing, typeof replace !== 'function'))
             remove.push(node);
       $(remove).remove();
     });
@@ -42,9 +42,10 @@
    * @param search The original search argument.
    * @param replace The replacing function.
    * @param capturing The number of capturing groups of the search pattern.
+   * @param clone Whether the replaced elements must be cloned before insertion.
    * @return true or false, depending on whether any matches were found.
    */
-  var textNode = function(node, search, replace, capturing) {
+  var textNode = function(node, search, replace, capturing, clone) {
     var tokens = node.nodeValue.split(search);
     if (tokens.length < 2) return false;
 
@@ -63,7 +64,7 @@
       if (typeof output[i] === 'string') text += output[i];
       else {
         if (text) nodes.push(document.createTextNode(text));
-        nodes.push(output[i].clone());
+        nodes.push(clone ? output[i].clone(true) : output[i]);
         text = '';
       }
     }
