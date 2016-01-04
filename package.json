@@ -3,6 +3,9 @@
   "version": "1.0.1",
   "description": "Replace substrings inside DOM nodes with text or new nodes.",
   "main": "jquery.replacetext.js",
+  "dependencies": {
+    "jquery": ">=1.0"
+  },
   "scripts": {
     "test": "$('<span>jQuery</span>').replaceText(/jQuery/, $('<a href=\"https://jquery.com/\">jQuery</a>'));"
   },
