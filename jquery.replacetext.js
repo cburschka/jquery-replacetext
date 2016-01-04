@@ -26,7 +26,7 @@
       var remove = [];
       for (var node = this.firstChild; node; node = node.nextSibling)
         if (node.nodeType == document.TEXT_NODE)
-          if (textNode(node, search, rep, capturing, typeof replace !== 'function'))
+          if (textNode(node, search, rep, capturing, !$.isFunction(replace)))
             remove.push(node);
       $(remove).remove();
     });
@@ -61,7 +61,7 @@
     var nodes = [];
     var text = '';
     for (var i in output) {
-      if (typeof output[i] === 'string') text += output[i];
+      if ($.type(output[i]) === 'string') text += output[i];
       else {
         if (text) nodes.push(document.createTextNode(text));
         nodes.push(clone ? output[i].clone(true) : output[i]);
