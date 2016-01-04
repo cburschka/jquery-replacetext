@@ -1,0 +1,26 @@
+{
+  "name": "jquery-replacetext",
+  "version": "1.0.1",
+  "description": "Replace substrings inside DOM nodes with text or new nodes.",
+  "main": "jquery.replacetext.js",
+  "scripts": {
+    "test": "$('<span>jQuery</span>').replaceText(/jQuery/, $('<a href=\"https://jquery.com/\">jQuery</a>'));"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cburschka/jquery-replacetext.git"
+  },
+  "keywords": [
+    "jquery",
+    "replace",
+    "text",
+    "jquery-plugin",
+    "ecosystem:jquery"
+  ],
+  "author": "Christoph Burschka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cburschka/jquery-replacetext/issues"
+  },
+  "homepage": "https://github.com/cburschka/jquery-replacetext#readme"
+}
