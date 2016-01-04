@@ -45,7 +45,7 @@
    * @param clone Whether the replaced elements must be cloned before insertion.
    * @return true or false, depending on whether any matches were found.
    */
-  var textNode = function(node, search, replace, capturing, clone) {
+  function textNode(node, search, replace, capturing, clone) {
     var tokens = node.nodeValue.split(search);
     if (tokens.length < 2) return false;
 
