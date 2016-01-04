@@ -1,6 +1,6 @@
 {
   "name": "jquery-replacetext",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Replace substrings inside DOM nodes with text or new nodes.",
   "main": "jquery.replacetext.js",
   "dependencies": {
