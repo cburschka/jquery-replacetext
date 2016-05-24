@@ -18,15 +18,15 @@
    */
   $.fn.replaceText = function(search, replace) {
     // This will be /undefined|/ for strings, with 0 groups.
-    var capturing = RegExp(search.source + '|').exec('').length - 1;
+    const width = RegExp(search.source + '|').exec('').length - 1;
     // Convert a static replacement value into a function that returns it.
-    var rep = (typeof replace === 'function') ? replace : function() { return replace; };
+    const rep = (typeof replace === 'function') ? replace : function() { return replace; };
 
     return this.each(function() {
-      var remove = [];
-      for (var node = this.firstChild; node; node = node.nextSibling)
+      const remove = [];
+      for (let node = this.firstChild; node; node = node.nextSibling)
         if (node.nodeType == document.TEXT_NODE)
-          if (textNode(node, search, rep, capturing, !$.isFunction(replace)))
+          if (textNode(node, search, rep, width, !$.isFunction(replace)))
             remove.push(node);
       $(remove).remove();
     });
@@ -41,30 +41,30 @@
    * @param node The text node being processed.
    * @param search The original search argument.
    * @param replace The replacing function.
-   * @param capturing The number of capturing groups of the search pattern.
+   * @param width The number of capturing groups of the search pattern.
    * @param clone Whether the replaced elements must be cloned before insertion.
    * @return true or false, depending on whether any matches were found.
    */
-  function textNode(node, search, replace, capturing, clone) {
-    var tokens = node.nodeValue.split(search);
+  function textNode(node, search, replace, width, clone) {
+    const tokens = node.nodeValue.split(search);
     if (tokens.length < 2) return false;
 
     // Render the matches and concatenate everything.
-    var output = [];
-    for (var i = 0; i+capturing+1 < tokens.length; i += capturing+1) {
-      var child = replace.apply(this, tokens.slice(i+1, i+1+capturing)) || '';
+    let output = [];
+    for (let i = 0; i+width+1 < tokens.length; i += width+1) {
+      const child = replace.apply(this, tokens.slice(i+1, i+1+width)) || '';
       output = output.concat(tokens[i], child);
     }
     output.push(tokens[tokens.length-1]);
 
     // Combine runs of strings into text nodes.
-    var nodes = [];
-    var text = '';
-    for (var i in output) {
-      if ($.type(output[i]) === 'string') text += output[i];
+    const nodes = [];
+    let text = '';
+    for (let item of output) {
+      if ($.type(item) === 'string') text += item;
       else {
         if (text) nodes.push(document.createTextNode(text));
-        nodes.push(clone ? output[i].clone(true) : output[i]);
+        nodes.push(clone ? item.clone(true) : item);
         text = '';
       }
     }
