@@ -60,14 +60,14 @@
     // Combine runs of strings into text nodes.
     const nodes = [];
     let text = '';
-    for (let item of output) {
+    output.forEach(item => {
       if ($.type(item) === 'string') text += item;
       else {
         if (text) nodes.push(document.createTextNode(text));
         nodes.push(clone ? item.clone(true) : item);
         text = '';
       }
-    }
+    });
     if (text) nodes.push(document.createTextNode(text));
 
     // Prepend all nodes to the given node, which will be marked for removal.
