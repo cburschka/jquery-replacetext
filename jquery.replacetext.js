@@ -5,7 +5,7 @@
  * This program is distributed under the terms of the MIT license.
  * Please see the LICENSE file for details.
  */
-(function($){
+(function ($) {
   /**
    * Replace substrings with HTML.
    *
@@ -16,21 +16,23 @@
    *                The function will receive the group captures as arguments.
    * @return the original jQuery object.
    */
-  $.fn.replaceText = function(search, replace) {
+  $.fn.replaceText = function (search, replace) {
     // This will be /undefined|/ for strings, with 0 groups.
     const width = RegExp(search.source + '|').exec('').length - 1;
     // Convert a static replacement value into a function that returns it.
-    const rep = (typeof replace === 'function') ? replace : function() { return replace; };
+    const rep = $.isFunction(replace) ? replace : () => replace;
+    const clone = !$.isFunction(replace);
 
-    return this.each(function() {
+    return this.each(function () {
       const remove = [];
-      for (let node = this.firstChild; node; node = node.nextSibling)
-        if (node.nodeType == document.TEXT_NODE)
-          if (textNode(node, search, rep, width, !$.isFunction(replace)))
-            remove.push(node);
+      for (let node = this.firstChild; node; node = node.nextSibling) {
+        if (node.nodeType == document.TEXT_NODE) {
+          textNode(node, search, rep, width, clone) && remove.push(node);
+        }
+      }
       $(remove).remove();
     });
-  }
+  };
 
   /**
    * Helper function for processing a text node.
@@ -51,22 +53,21 @@
 
     // Render the matches and concatenate everything.
     let output = [];
-    for (let i = 0; i+width+1 < tokens.length; i += width+1) {
-      const child = replace.apply(this, tokens.slice(i+1, i+1+width)) || '';
+    for (let i = 0; i + width + 1 < tokens.length; i += width + 1) {
+      const child = replace.apply(this, tokens.slice(i + 1, i + 1 + width)) || '';
       output = output.concat(tokens[i], child);
     }
-    output.push(tokens[tokens.length-1]);
+    output.push(tokens[tokens.length - 1]);
 
     // Combine runs of strings into text nodes.
     const nodes = [];
     let text = '';
     output.forEach(item => {
-      if ($.type(item) === 'string') text += item;
-      else {
+      if ($.type(item) !== 'string') {
         if (text) nodes.push(document.createTextNode(text));
         nodes.push(clone ? item.clone(true) : item);
         text = '';
-      }
+      } else text += item;
     });
     if (text) nodes.push(document.createTextNode(text));
 
